@@ -76,12 +76,11 @@
   Brings up some help
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
-    :ensure t
-    :config (which-key-mode)
+    :defer 10
+    :config (which-key-mode 1)
     :bind ("C-h C-k" . which-key-show-top-level))
 
   (use-package discover-my-major
-    :ensure t
     :commands (discover-my-major discover-my-mode)
     :bind ("C-h C-m" . discover-my-major))
 #+END_SRC
@@ -89,12 +88,10 @@
 *** IEdit
 #+BEGIN_SRC emacs-lisp
   (use-package iedit
-    :ensure t)
 #+END_SRC
 *** Expand region
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
-    :ensure t
     :bind ("C-c m" . er/expand-region))
 #+END_SRC
 *** Smartparens
@@ -147,7 +144,6 @@
 *** Sudo edit
 #+BEGIN_SRC emacs-lisp
   (use-package sudo-edit
-    :ensure t
     :bind ("C-c s e" . sudo-edit))
 #+END_SRC
 *** Kill-ring max entries
@@ -157,13 +153,11 @@
 *** Killring popup
 #+BEGIN_SRC emacs-lisp
   (use-package popup-kill-ring
-    :ensure t
     :bind ("M-y" . popup-kill-ring))
 #+END_SRC
 *** Zzz to char
 #+BEGIN_SRC emacs-lisp
   (use-package zzz-to-char
-    :ensure t
     :bind ("M-z" . zzz-up-to-char))
 #+END_SRC
 *** Tabs
@@ -225,13 +219,11 @@
 ** Avy
 #+BEGIN_SRC emacs-lisp
   (use-package avy
-    :ensure t
     :bind ("M-s" . avy-goto-char))
 #+END_SRC
 ** Swiper
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
-    :ensure t
     :bind ("C-s" . swiper))
 #+END_SRC
 ** Ivy
@@ -247,7 +239,6 @@
 ** Dashboard
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
-    :ensure t
     :config
     (dashboard-setup-startup-hook)
     (setq dashboard-items '((recents . 10)
@@ -256,7 +247,6 @@
 ** Async
 #+BEGIN_SRC emacs-lisp
   (use-package async
-    :ensure t
     :init (dired-async-mode 1))
 #+END_SRC
 * Look
@@ -282,7 +272,6 @@
   (setq column-number-mode t)
 
   (use-package beacon
-    :ensure t
     :config (beacon-mode 1))
 
   (use-package hlinum
@@ -292,7 +281,6 @@
 ** Themes
 #+BEGIN_SRC emacs-lisp
   (use-package zerodark-theme
-    :ensure t
     :after flycheck
     :init
     (load-theme 'zerodark t)
@@ -306,7 +294,6 @@
 *** Diminish
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
-    :ensure t
     :init
     (diminish 'beacon-mode)
     (diminish 'smartparens-mode)
@@ -319,19 +306,16 @@
 ** Emoji :D
 #+BEGIN_SRC emacs-lisp
   (use-package emojify
-    :ensure t
     :config (add-hook 'after-init-hook #'global-emojify-mode))
 #+END_SRC
 ** Rainbow
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode
-    :ensure t
     :init (add-hook 'prog-mode-hook 'rainbow-mode)
           (add-hook 'text-mode-hook 'rainbow-mode)
           (add-hook 'conf-mode-hook 'rainbow-mode))
 
   (use-package rainbow-delimiters
-    :ensure t
     :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
           (add-hook 'text-mode-hook #'rainbow-delimiters-mode)
           (add-hook 'conf-mode-hook #'rainbow-delimiters-mode))
@@ -345,14 +329,12 @@
 ** Org bullets
 #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
-    :ensure t
     :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+END_SRC
 * Programming
 ** Company
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :ensure t
     :config
     (setq company-idle-delay 0)
     (setq company-minimum-prefix-length 3))
@@ -365,23 +347,19 @@
 ** Yasnippet
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
-    :ensure t
     :config
       (use-package yasnippet-snippets
-        :ensure t)
       (yas-reload-all))
 #+END_SRC
 ** FlyCheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :ensure t
     :init (global-flycheck-mode))
 #+END_SRC
 ** Projectile
 *** Enable projectile globally
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :ensure t
     :init (projectile-mode 1)
     :config
     (setq projectile-completion-system 'ivy))
@@ -397,7 +375,7 @@
     ("C-x v" . counsel-projectile)
     ("C-x c p" . counsel-projectile-ag)
     :config
-    (counsel-projectile-on))
+    (counsel-projectile-mode))
 #+END_SRC
 ** Semantic
 #+BEGIN_SRC emacs-lisp
@@ -420,17 +398,14 @@
     (add-hook 'c-mode-hook 'company-mode))
 
   (use-package company-c-headers
-    :ensure t)
 
   (use-package company-irony
-    :ensure t
     :config
     (setq company-backends '((company-c-headers
                               company-dabbrev-code
                               company-irony))))
 
   (use-package irony
-    :ensure t
     :config
     (add-hook 'c++-mode-hook 'irony-mode)
     (add-hook 'c-mode-hook 'irony-mode)
@@ -444,7 +419,6 @@
 *** FlyCheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck-clang-analyzer
-    :ensure t
     :config
     (with-eval-after-load 'flycheck
       (require 'flycheck-clang-analyzer)
@@ -457,7 +431,6 @@
     (add-hook 'python-mode-hook 'company-mode))
 
   (use-package company-jedi
-    :ensure t
     :config
     (require 'company)
     (add-to-list 'company-backends 'company-jedi))
@@ -468,7 +441,6 @@
                                     company-dabbrev-code))))
 
   (use-package company-jedi
-    :ensure t
     :config
     (require 'company)
     (add-hook 'python-mode-hook 'python-mode-company-init))
@@ -487,13 +459,11 @@
   (add-hook 'emacs-lisp-mode-hook 'company-mode)
 
   (use-package slime
-    :ensure t
     :config
     (setq inferior-lisp-program "/usr/bin/sbcl")
     (setq slime-contribs '(slime-fancy)))
 
   (use-package slime-company
-    :ensure t
     :init
     (require 'company)
     (slime-setup '(slime-fancy slime-company)))
@@ -521,7 +491,6 @@
                                     company-dabbrev-code))))
 
   (use-package company-lua
-    :ensure t
     :config
     (require 'company)
     (setq lua-indent-level 4)
@@ -549,7 +518,6 @@
                                     company-dabbrev-code))))
 
   (use-package company-shell
-    :ensure t
     :config
     (require 'company)
     (add-hook 'shell-mode-hook 'shell-mode-company-init))
@@ -566,7 +534,6 @@
 *** Meson
 #+BEGIN_SRC emacs-lisp
   (use-package meson-mode
-    :ensure t
     :init (add-hook 'meson-mode-hook 'company-mode))
 #+END_SRC
 * Git
@@ -581,7 +548,6 @@
 ** Magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :ensure t
     :config
     (setq magit-push-always-verify nil)
     (setq git-commit-summary-max-length 50)
