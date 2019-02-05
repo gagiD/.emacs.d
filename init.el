@@ -56,7 +56,7 @@
  '(ivy-mode t)
  '(package-selected-packages
    (quote
-    (pretty-mode meson-mode magit company-shell company-lua slime-company slime company-jedi flycheck-clang-analyzer company-irony company-c-headers flycheck zzz-to-char zerodark-theme expand-region helm projectile async yasnippet-snippets yasnippet swiper popup-kill-ring diminish spaceline company rainbow-delimiters sudo-edit smartparens rainbow-mode avy smex ido-vertical-mode org-bullets spacemacs-theme beacon iedit discover-my-major which-key auto-compile use-package))))
+    (counsel-projectile hlinum counsel pretty-mode meson-mode magit company-shell company-lua slime-company slime company-jedi flycheck-clang-analyzer company-irony company-c-headers flycheck zzz-to-char zerodark-theme expand-region helm projectile async yasnippet-snippets yasnippet swiper popup-kill-ring diminish spaceline company rainbow-delimiters sudo-edit smartparens rainbow-mode avy smex ido-vertical-mode org-bullets spacemacs-theme beacon iedit discover-my-major which-key auto-compile use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

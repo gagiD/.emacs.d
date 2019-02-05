@@ -56,10 +56,13 @@
 #+END_SRC
 ** UTF-8
 #+BEGIN_SRC emacs-lisp
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (prefer-coding-system 'utf-8)
-  (load-library "iso-transl")
+  (set-charset-priority 'unicode)
+  (setq locale-coding-system   'utf-8)
+  (set-terminal-coding-system  'utf-8)
+  (set-keyboard-coding-system  'utf-8)
+  (set-selection-coding-system 'utf-8)
+  (prefer-coding-system        'utf-8)
+  (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 #+END_SRC
 ** Author info
 #+BEGIN_SRC emacs-lisp
@@ -210,43 +213,14 @@
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
-** Helm
+** Counsel
 #+BEGIN_SRC emacs-lisp
-  (use-package helm
-    :ensure t
+  (use-package counsel
     :bind
-    ("C-x C-f" . 'helm-find-files)
-    ("C-x b" . 'helm-buffers-list)
-    ("M-x" . 'helm-M-x)
-    :config
-    (defun daedreth/helm-hide-minibuffer ()
-      (when (with-helm-buffer helm-echo-input-in-header-line)
-        (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-          (overlay-put ov 'window (selected-window))
-          (overlay-put ov 'face
-                       (let ((bg-color (face-background 'default nil)))
-                         `(:background ,bg-color :foreground ,bg-color)))
-          (setq-local cursor-type nil))))
-    (add-hook 'helm-minibuffer-set-up-hook 'daedreth/helm-hide-minibuffer)
-    (setq helm-autoresize-max-height 0
-          helm-autoresize-min-height 40
-          helm-M-x-fuzzy-match t
-          helm-buffers-fuzzy-matching t
-          helm-recentf-fuzzy-match t
-          helm-semantic-fuzzy-match t
-          helm-imenu-fuzzy-match t
-          helm-split-window-in-side-p nil
-          helm-move-to-line-cycle-in-source nil
-          helm-ff-search-library-in-sexp t
-          helm-scroll-amount 8 
-          helm-echo-input-in-header-line t)
-    :init
-    (helm-mode 1))
-
-  (require 'helm-config)    
-  (helm-autoresize-mode 1)
-  (define-key helm-find-files-map (kbd "C-b") 'helm-find-files-up-one-level)
-  (define-key helm-find-files-map (kbd "C-f") 'helm-execute-persistent-action)
+    ("M-x" . counsel-M-x)
+    ("C-x C-m" . counsel-M-x)
+    ("C-x C-f" . counsel-find-file)
+    ("C-x c k" . counsel-yank-pop))
 #+END_SRC
 ** Avy
 #+BEGIN_SRC emacs-lisp
@@ -259,6 +233,16 @@
   (use-package swiper
     :ensure t
     :bind ("C-s" . swiper))
+#+END_SRC
+** Ivy
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :bind
+    ("C-x C-r" . ivy-resume)
+    :config
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers nil)
+    (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
 #+END_SRC
 ** Dashboard
 #+BEGIN_SRC emacs-lisp
@@ -300,6 +284,10 @@
   (use-package beacon
     :ensure t
     :config (beacon-mode 1))
+
+  (use-package hlinum
+    :config
+    (hlinum-activate))
 #+END_SRC
 ** Themes
 #+BEGIN_SRC emacs-lisp
@@ -394,11 +382,31 @@
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
-    :init (projectile-mode 1))
+    :init (projectile-mode 1)
+    :config
+    (setq projectile-completion-system 'ivy))
 #+END_SRC
 *** Compile on f5
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<f5>") 'projectile-compile-project)
+#+END_SRC
+*** Counsel-projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel-projectile
+    :bind
+    ("C-x v" . counsel-projectile)
+    ("C-x c p" . counsel-projectile-ag)
+    :config
+    (counsel-projectile-on))
+#+END_SRC
+** Semantic
+#+BEGIN_SRC emacs-lisp
+  (use-package semantic
+    :config
+    (global-semanticdb-minor-mode 1)
+    (global-semantic-idle-scheduler-mode 1)
+    (global-semantic-stickyfunc-mode 1)
+    (semantic-mode 1))
 #+END_SRC
 ** C/C++
 *** General
@@ -562,6 +570,14 @@
     :init (add-hook 'meson-mode-hook 'company-mode))
 #+END_SRC
 * Git
+** EDiff
+#+BEGIN_SRC emacs-lisp
+  (use-package ediff
+    :config
+    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+    (setq-default ediff-highlight-all-diffs 'nil)
+    (setq ediff-diff-options "-w"))
+#+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
@@ -569,6 +585,15 @@
     :config
     (setq magit-push-always-verify nil)
     (setq git-commit-summary-max-length 50)
+    (setq magit-completing-read-function 'ivy-completing-read)
     :bind
-    ("M-g" . magit-status))
+    ("C-x g s" . magit-status)
+    ("C-x g x" . magit-checkout)
+    ("C-x g c" . magit-commit)
+    ("C-x g p" . magit-push)
+    ("C-x g u" . magit-pull)
+    ("C-x g e" . magit-ediff-resolve)
+    ("C-x g r" . magit-rebase-interactive))
+
+  (use-package magit-popup)
 #+END_SRC

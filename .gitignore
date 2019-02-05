@@ -1,0 +1,10 @@
+
+elpa/
+irony/
+emojis/
+auto-save-list/
+
+%backup%~
+MyInit.el
+projectile-bookmarks.eld
+recentf
