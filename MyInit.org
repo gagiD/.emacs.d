@@ -87,7 +87,7 @@
 ** Editing
 *** IEdit
 #+BEGIN_SRC emacs-lisp
-  (use-package iedit
+  (use-package iedit)
 #+END_SRC
 *** Expand region
 #+BEGIN_SRC emacs-lisp
@@ -348,7 +348,7 @@
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
     :config
-      (use-package yasnippet-snippets
+      (use-package yasnippet-snippets)
       (yas-reload-all))
 #+END_SRC
 ** FlyCheck
@@ -397,7 +397,7 @@
     (add-hook 'c++-mode-hook 'company-mode)
     (add-hook 'c-mode-hook 'company-mode))
 
-  (use-package company-c-headers
+  (use-package company-c-headers)
 
   (use-package company-irony
     :config
