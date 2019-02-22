@@ -337,7 +337,8 @@
   (use-package company
     :config
     (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 3))
+    (setq company-dabbrev-downcase 0)
+    (setq company-minimum-prefix-length 1))
 
   (with-eval-after-load 'company
     (define-key company-active-map (kbd "C-n") #'company-select-next)
